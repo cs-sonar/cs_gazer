@@ -1,0 +1,35 @@
+{include file="./inc/common_template_header.tmpl"}
+
+<div id="main" class="shadow clearfix">
+<h2>メールグループ設定</h2>
+{include file="./inc/errors.tmpl"}
+{include file="./inc/common_template_left.tmpl"}
+
+<div id="sub_main" class="clearfix">
+<h3>メールグループ追加</h3>
+<form action"{$smarty.server.SCRIPT_NAME}" method="post">
+<input type="text" name="group" size="20" />
+<input type="submit" name="add" value="グループ追加" />
+</form>
+
+<br />
+
+<h3>メールグループ設定</h3>
+
+{foreach from=$mailaddrAsGroup item=mail key=group}
+<form action"{$smarty.server.SCRIPT_NAME}" method="post">
+<strong class="strong_mailgroup">　{$group}</strong>　<input type="submit" name="set" value="グループ設定" />　<input type="submit" name="groupdel" value="グループを削除" />
+<ul>
+	{foreach from=$allMailAddr item=v}
+			<li><input type="checkbox" name="setmail[]" value="{$v}" {if $mail.$v}checked{/if} /> {$v}</li>
+	{/foreach}
+</ul>
+<input type="hidden" name="group" value="{$group}" />
+</form>
+<br /><br />
+{/foreach}
+
+<!-- $Id: common_template_footer.tmpl 192 2011-01-23 15:10:46Z sonar $ -->
+</div><!-- /sub_main -->
+</div><!-- /main -->
+{include file="./inc/common_template_footer.tmpl"}

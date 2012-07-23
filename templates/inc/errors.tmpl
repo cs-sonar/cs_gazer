@@ -1,0 +1,8 @@
+{if isset($errors)}
+<ul class="error_list">
+    {foreach from=$errors item=v}
+    <li>{$v}</li>
+    {/foreach}
+</ul>
+{/if}
+

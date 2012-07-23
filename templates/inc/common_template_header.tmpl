@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<link rel="stylesheet" href="{$home_url}static/css/base.css" type="text/css" />
+<link rel="stylesheet" href="{$home_url}static/css/prettyPopin.css" type="text/css" media="screen" charset="utf-8" />
+<script type="text/javascript" src="{$home_url}static/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="{$home_url}static/js/qatab.js"></script>
+<script type="text/javascript" src="{$home_url}static/js/jquery-impromptu.3.2.js"></script>
+<script type="text/javascript" src="{$home_url}static/js/impromptu_test.js"></script>
+<script type="text/javascript" src="{$home_url}static/js/jquery.prettyPopin.js"  charset="utf-8"></script>
+
+<!--[if lte IE 6]>
+<script type="text/javascript" src="{$home_url}static/js/DD_belatedPNG.js"></script>
+<script type="text/javascript">
+  DD_belatedPNG.fix('.ie6_png');
+</script>
+<![endif]-->
+<!-- $Id: common_template_header.tmpl 203 2011-01-31 18:44:49Z sonar $ -->
+<title>Project cs gazer</title>
+
+</head>
+<body>
+<div id="container">
+<div id="wrapper">
+<div id="header" class="shadow clearfix">
+	<h1><a href="index.php"><img class="ie6_png" alt="Project cs_gazer" src="{$home_url}static/images/header/logo.png"></a></h1>
+		<div id="header_menu" class="clearfix">
+			<ul>
+				<!-- <li class="ie6_png"><a href="{$home_url}">{$user|default:"ログインしていません"|escape}</a></li> -->
+				{if $user}
+				<li><a href="index.php"><img class="ie6_png" src="{$home_url}static/images/header/status.png" alt="ステータス"></a></li>
+				<li><a href="./alledit.php"><img class="ie6_png" src="{$home_url}static/images/header/edit.png" alt="編集"></a></li>
+				<li><a href="./logview.php"><img class="ie6_png" src="{$home_url}static/images/header/log.png" alt="ログ"></a></li>
+				<li><a href="./config.php"><img class="ie6_png" src="{$home_url}static/images/header/setting.png" alt="各種設定"></a></li>
+				<li><a href="./logout.php"><img class="ie6_png" src="{$home_url}static/images/header/logout.png" alt="ログアウト"></a></li>
+				{/if}
+			</ul>
+		</div><!-- /header_menu -->
+	</div><!-- /header -->

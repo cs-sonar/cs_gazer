@@ -1,0 +1,87 @@
+{include file="./inc/common_template_header.tmpl"}
+<div id="load_ico">チェック中...</div>
+<div id="main" class="shadow clearfix">
+
+{literal}
+<script type="text/javascript">
+$(function() {
+	$('#btnLoad').click(function() {
+		$('#load_ico').css('display', 'block');
+		$.post("lib/check.php",function(data) {
+			location.href="logview.php";
+		});
+	});
+});
+</script>
+{/literal}
+
+{include file="./inc/errors.tmpl"}
+
+<div id="status_header">
+<div class="status_data">
+	最終チェック日	:{$date}<br />チェック所要時間	:{$exectime|replace:'exectime:':''} sec
+</div><!-- /status_data -->
+
+<div class="status_error">
+	ERROR SORVER :
+	{if $errornum eq 'errorserver:0'}
+		<span class="status_error_green"> {$errornum|replace:'errorserver:':''}</span>
+	{else}
+		<span class="status_error_red"> {$errornum|replace:'errorserver:':''}</span>
+	{/if}
+</div><!-- /status_error -->
+
+<div class="status_check">
+	<button id="btnLoad">今すぐチェック ≫</button>
+</div><!-- /status_check -->
+
+</div><!-- /status_header -->
+
+<h2>チェックログ</h2>
+	<FORM method="post" action="{$smarty.server.SCRIPT_NAME}">
+		<input type="hidden" name="current_logfile" value="{$log_current_path}">
+		<input type="submit" name="Submit" value="ダウンロード">　<input type="submit" name="Submit_del" value="クリア">
+	</FORM>
+	<br />
+<table class="table_log">
+{foreach from=$list item=log}
+<tr>
+<th>{$log.date}</th>
+<td>
+{if $log.check neq "ok"}
+<span class="red">
+{/if}
+{$log.host}
+check:{$log.check}
+{$log.ports}
+{if $log.pingchk}ping:{$log.pingchk} {/if}
+{if $log.httpchk}http:{$log.httpchk} {/if}
+{if $log.check neq "ok"}
+</span>
+{/if}
+</td>
+</tr>
+{/foreach}
+</table>
+
+<br />
+<br />
+
+<h2>過去ログDL</h2>
+{foreach from=$old_logs item=foo}
+<table>
+	<tr>
+		<th>{$foo}</th>
+		<td>
+		<FORM method="post" action="{$smarty.server.SCRIPT_NAME}">
+		<input type="hidden" name="logfile" value="{$foo}">
+		<input type="submit" name="Submit" value="ダウンロード"><input type="submit" name="Submit_del" value="削除">
+		</form>
+		</td>
+	</tr>
+</table>
+{/foreach}
+
+</div><!-- /main -->
+
+{include file="./inc/common_template_footer.tmpl"}

@@ -1,0 +1,118 @@
+{include file="./inc/common_template_header.tmpl"}
+
+
+{if $finish_install}
+
+<div id="main" class="shadow clearfix">
+	<h2>インストールが完了しました。</h2>
+	<div align="center">
+		<br />
+		<br />
+		<br />
+		入力したID/PASSWORDにて<a href="{$home_url}/login.php">こちら</a>からログインして下さい。<br />
+	</div>
+</div><!-- /main -->
+{else}
+<div id="main" class="shadow clearfix">
+<h2>インストール</h2>
+		{include file="./inc/errors.tmpl"}
+	<form method="post" action="{$smarty.server.SCRIPT_NAME}" name="form1" id="login">
+	<div align="center">
+		<table class="table_config_status">
+			<tr class="bg_lightgray">
+				<th>curl関数の有無</th>
+				<td>{if $curl eq 'ok'}<span class="blue">ok</span>{else}<span class="red">PHPにCURL関数がありません。httpチェックは単にPORT80によるチェックとなります</span>{/if}</td>
+			</tr>
+			<tr>
+				<td>datディレクトリの書き込み権限</td>
+				<td>{if $dat eq 'ok'}<span class="blue">ok</span>{else}<span class="red">./datディレクトリに書き込み権限がありません。パーミッションをチェックして下さい</span>{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<td>smarty cacheディレクトリの書き込み権限</td>
+				<td>{if $smartycache eq 'ok'}<span class="blue">ok</span>{else}<span class="red">./templates_cディレクトリに書き込み権限がありません。パーミッションをチェックして下さい</span>{/if}</td>
+			</tr>
+			<tr>
+				<td>AUTH_DAT_FILEチェック</td>
+				<td>{if $auth_dat_file eq 'ok'}<span class="blue">ok</span>{else}<span class="red">{$errors.auth_dat_file}</span>{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<td>LIST_DAT_FILEチェック</td>
+				<td>{if $list_dat_file eq 'ok'}<span class="blue">ok</span>{else}<span class="red">{$errors.list_dat_file}</span>{/if}</td>
+			</tr>
+			<tr>
+				<td>PORTS_DAT_FILEチェック</td>
+				<td>{if $ports_dat_file eq 'ok'}<span class="blue">ok</span>{else}<span class="red">{$errors.ports_dat_file}</span>{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<td>SETTING_DAT_FILEチェック</td>
+				<td>{if $setting_dat_file eq 'ok'}<span class="blue">ok</span>{else}<span class="red">{$errors.setting_dat_file}</span>{/if}</td>
+			</tr>
+			<tr>
+				<td>MAIL_DAT_FILEチェック</td>
+				<td>{if $mail_dat_file eq 'ok'}<span class="blue">ok</span>{else}<span class="red">{$errors.mail_dat_file}</span>{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<td>MAILGROUP_DAT_FILEチェック</td>
+				<td>{if $mailgroup_dat_file eq 'ok'}<span class="blue">ok</span>{else}<span class="red">{$errors.mailgroup_dat_file}</span>{/if}</td>
+			</tr>
+			<tr>
+				<td>CHECK_CURRENT_DAT_FILEチェック</td>
+				<td>{if $check_current_dat_file eq 'ok'}<span class="blue">ok</span>{else}<span class="red">{$errors.check_current_dat_file}</span>{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<td>CHECK_LOG_EXEC_DAT_FILEチェック</td>
+				<td>{if $check_log_exec_dat_file eq 'ok'}<span class="blue">ok</span>{else}<span class="red">{$errors.check_log_exec_dat_file}</span>{/if}</td>
+			</tr>
+			<tr>
+				<td>CHECK_LOG_DAT_FILEチェック</td>
+				<td>{if $check_log_dat_file eq 'ok'}<span class="blue">ok</span>{else}<span class="red">{$errors.check_log_dat_file}</span>{/if}</td>
+			</tr>
+			<tr>
+				<td colspan="2">{if $error_exists_flg}<input type="submit" name="clean" value="ファイル削除を実行">　{/if}<input type="button" value="再チェック" onclick="location.reload();" /></td>
+			</tr>
+			{if $errors || $error_exists_flg}
+			<tr>
+				<td colspan="2">エラーを確認の上、修正して下さい。</td>
+			</tr>
+		</table>
+			{else}
+		</table>
+	</div>
+	<br />
+	<br />
+	<h2>初期設定</h2>
+	<div align="center">
+		<table class="table_config_setting">
+			<tr class="bg_lightgray">
+				<th>ログインID</th>
+				<td><input type="text" name="user"></td>
+			</tr>
+			<tr>
+				<th>パスワード</th>
+				<td><input type="password" name="password"><br />
+					<input type="password" name="passwordConfirm"> 再入力
+				</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<th>通知先メールアドレス</th>
+				<td><input type="text" name="mailaddr"></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					ここで決定した内容はインストール後も、変更可能です。
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="submit" name="install" value="インストール">
+				</td>
+			</tr>
+			{/if}
+		</table>
+	</div>
+	</form>
+</div><!-- /main -->
+
+{/if}
+
+{include file="./inc/common_template_footer.tmpl"}

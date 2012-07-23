@@ -1,0 +1,34 @@
+{include file="./inc/common_template_header.tmpl"}
+
+<div id="main" class="shadow clearfix">
+<h2>メールアドレス設定</h2>
+{include file="./inc/errors.tmpl"}
+{include file="./inc/common_template_left.tmpl"}
+
+<div id="sub_main" class="clearfix">
+
+<h3>メールアドレス追加</h3>
+<form action="{$smarty.server.SCRIPT_NAME}" method="post">
+    <input type="text" name="mailaddr" size="25"  maxlength="100" value="{$mailaddr|default:''}">
+    <input type="submit" name="add" value="追加" />
+</form>
+
+<br />
+
+<h3>メールアドレスリスト</h3>
+<form action="{$smarty.server.SCRIPT_NAME}" method="post">
+	<table class="table_mailaddr">
+		{foreach from=$allMailAddr key=k item=v }
+		<tr><td class="mailaddr_check">{if $k != $is_checked.$k}<input type="checkbox" name="mailaddr[]" value="{$k}" />{/if}</td><td class="mailaddr_address">{$v}</td><td class="mailaddr_group">{if $k eq $is_checked.$k}<a href="mailgroup.php">グループ設定にて使用中</a>{/if}</td></tr>
+		{/foreach}
+	</table>
+	<br />
+	<input type="submit" name="del" value="チェックしたものを削除" />
+</form>
+
+<br /><br />
+
+</div><!-- /sub_main -->
+</div><!-- /main -->
+
+{include file="./inc/common_template_footer.tmpl"}

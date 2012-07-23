@@ -1,0 +1,33 @@
+{include file="./inc/common_template_header.tmpl"}
+
+<div id="main" class="shadow clearfix">
+<h2>ポート設定</h2>
+{include file="./inc/errors.tmpl"}
+{include file="./inc/common_template_left.tmpl"}
+
+<div id="sub_main" class="clearfix">
+
+<h3>監視対象ポートの追加</h3>
+<form action="{$smarty.server.SCRIPT_NAME}" method="post">
+    <input type="text" name="ports" size="6"  maxlength="5" >
+    <input type="submit" name="add" value="追加" />
+</form> 
+
+<br />
+
+<h3>監視ポート</h3>
+<form action="{$smarty.server.SCRIPT_NAME}" method="post">
+	<ul>
+		{foreach from=$ports item=port}
+		<li><input type="checkbox" name="ports{$port}" value="{$port}" />{$port}{if $port eq $is_checked.$port} (監視中ポート){/if}</li>
+		{/foreach}
+	</ul>
+	<input type="submit" name="del" value="チェックしたものを削除" />
+</form>
+
+<br />
+
+</div><!-- /sub_main -->
+</div><!-- /main -->
+
+{include file="./inc/common_template_footer.tmpl"}

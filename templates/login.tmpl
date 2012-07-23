@@ -1,0 +1,91 @@
+{include file="./inc/common_template_header.tmpl"}
+
+{literal}
+<script>
+jQuery(function($){
+	$('#login').submit(function(){
+		var valid = true;
+		var errormsg = '必須項目です';
+		var errorcn = 'error';
+		$('.' + errorcn, this).remove();
+		$('.required', this).each(function(){
+			var parent = $(this).parent();
+			if( $(this).val() == '' ){
+				var msg = $(this).attr('title');
+				msg = (msg != '') ? msg : errormsg;
+				$('<span class="'+ errorcn +'">'+ msg +'</span>')
+					.fadeIn("nomal")
+					.appendTo(parent)
+					.click(function(){ $(this).remove(); })
+				valid = false;
+			};
+		});
+		return valid;
+	});
+})
+</script>
+{/literal}
+
+<div id="main" class="shadow clearfix">
+
+	<div align="center">
+		{include file="./inc/errors.tmpl"}
+	<form method="post" action="{$smarty.server.SCRIPT_NAME}" name="form1" id="login">
+		<table class="login_table">
+			<thead>
+			<tr>
+				<td class="table_lt"></td>
+				<td class="table_t"></td>
+				<td class="table_rt"></td>
+			</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="table_l"></td>
+					<td class="table_logo"> <img class="ie6_png" alt="Project cs_gazer" src="{$home_url}static/images/login_logo.png"></td>
+					<td class="table_r"></td>
+				</tr>
+				<tr>
+					<td class="table_l"></td>
+					<th class="table_main">Username</th>
+					<td class="table_r"></td>
+				</tr>
+				<tr>
+					<td class="table_l"></td>
+					<td class="table_main"><input type="text" name="id" class="table_tbx required" title="ユーザー名を入力してください"></td>
+					<td class="table_r"></td>
+				</tr>
+				<tr>
+					<td class="table_l"></td>
+					<th class="table_main">Password</th>
+					<td class="table_r"></td>
+				</tr>
+				<tr>
+					<td class="table_l"></td>
+					<td class="table_main"><input type="password" name="password"  class="table_tbx required" title="パスワードを入力してください"></td>
+					<td class="table_r"></td>
+				</tr>
+				<tr>
+					<td class="table_l"></td>
+					<td class="table_btn">
+						<input type="hidden" name="token" value="{$token}">
+						<input type="image" name="submit" src="{$home_url}static/images/login_btn.png" alt="ログイン" onmouseover="this.src='{$home_url}static/images/login_btn_h.png'" onmouseout="this.src='{$home_url}static/images/login_btn.png'" onsubmit="return turu;">
+					</td>
+					<td class="table_r"></td>
+				</tr>
+			</tbody>
+			<tfoot>
+			<tr>
+				<td class="table_lb"></td>
+				<td class="table_b"></td>
+				<td class="table_rb"></td>
+			</tr>
+			</tfoot>
+		</table>
+
+	</form>
+</div><!-- center end -->
+
+</div><!-- /main -->
+
+{include file="./inc/common_template_footer.tmpl"}

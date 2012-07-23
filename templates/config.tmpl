@@ -1,0 +1,146 @@
+{include file="./inc/common_template_header.tmpl"}
+
+<div id="main" class="shadow clearfix">
+<h2>ステータス</h2>
+{include file="./inc/errors.tmpl"}
+{include file="./inc/common_template_left.tmpl"}
+<div id="sub_main" class="clearfix">
+<h2>ステータス</h2>
+	<form method="post" action="{$smarty.server.SCRIPT_NAME}" name="form1">
+		<table class="table_config_status">
+			<tr class="bg_lightgray">
+				<th>curl関数の有無</th>
+				<td>{if $curl eq 'ok'}<span class="green">OK</span>{else}<span class="red">PHPにCURL関数がありません。httpチェックは単にPORT80によるチェックとなります</span>{/if}</td>
+			</tr>
+			<tr>
+				<th>mail関数の有無</th>
+				<td>{if $mail eq 'ok'}<span class="green">OK</span>{else}<span class="red">PHPにmb_send_mail関数がありません。エラー時にメール送信を行う事ができません</span>{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<th>datディレクトリの書き込み権限</th>
+				<td>{if $dat eq 'ok'}<span class="green">OK</span>{else}<span class="red">./datディレクトリに書き込み権限がありません。パーミッションをチェックして下さい</span>{/if}</td>
+			</tr>
+			<tr>
+				<th>smarty compileディレクトリの書き込み権限</th>
+				<td>{if $smartycache eq 'ok'}<span class="green">OK</span>{else}<span class="red">./templates_cディレクトリに書き込み権限がありません。パーミッションをチェックして下さい</span>{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<th>AUTH_DAT_FILEチェック</th>
+				<td>{if $auth_dat_file eq 'ok'}<span class="green">OK</span>{else}<span class="red">{$errors.auth_dat_file}</span>{/if}</td>
+			</tr>
+			<tr>
+				<th>LIST_DAT_FILEチェック</th>
+				<td>{if $list_dat_file eq 'ok'}<span class="green">OK</span>{else}<span class="red">{$errors.list_dat_file}</span><input type="submit" name="clean_list_dat" value="初期化">{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<th>PORTS_DAT_FILEチェック</th>
+				<td>{if $ports_dat_file eq 'ok'}<span class="green">OK</span>{else}<span class="red">{$errors.ports_dat_file}</span><input type="submit" name="clean_ports_dat" value="初期化">{/if}</td>
+			</tr>
+			<tr>
+				<th>SETTING_DAT_FILEチェック</th>
+				<td>{if $setting_dat_file eq 'ok'}<span class="green">OK</span>{else}<span class="red">{$errors.setting_dat_file}</span><input type="submit" name="clean_setting_dat" value="初期化">{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<th>MAIL_DAT_FILEチェック</th>
+				<td>{if $mail_dat_file eq 'ok'}<span class="green">OK</span>{else}<span class="red">{$errors.mail_dat_file}</span><input type="submit" name="clean_mail_dat" value="初期化">{/if}</td>
+			</tr>
+			<tr>
+				<th>MAILGROUP_DAT_FILEチェック</th>
+				<td>{if $mailgroup_dat_file eq 'ok'}<span class="green">OK</span>{else}<span class="red">{$errors.mailgroup_dat_file}</span><input type="submit" name="clean_mailgroup_dat" value="初期化">{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<th>CHECK_CURRENT_DAT_FILEチェック</th>
+				<td>{if $check_current_dat_file eq 'ok'}<span class="green">OK</span>{else}<span class="red">{$errors.check_current_dat_file}</span><br />一度チェックを実行すると再作成されるファイルです。書き込み権限がない場合は書き込み権限を与えてください。<a href="{$home_url}lib/check.php?web=1"><br />今すぐチェック</a>{/if}</td>
+			</tr>
+			<tr>
+				<th>CHECK_LOG_EXEC_DAT_FILEチェック</th>
+				<td>{if $check_log_exec_dat_file eq 'ok'}<span class="green">OK</span>{else}<span class="red">{$errors.check_log_exec_dat_file}</span><br />一度チェックを実行すると再作成されるファイルです。書き込み権限がない場合は書き込み権限を与えてください。<a href="{$home_url}lib/check.php?web=1"><br />今すぐチェック</a>{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<th>CHECK_LOG_DAT_FILEチェック</th>
+				<td>{if $check_log_dat_file eq 'ok'}<span class="green">OK</span>{else}<span class="red">{$errors.check_log_dat_file}</span><input type="submit" name="clean_log_dat" value="初期化">{/if}</td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="button" value="再チェック" onclick="location.reload();" /></td>
+			</tr>
+		</table>
+	</form>
+	<br />
+	ファイルの初期化は強制的に行われる為、他のファイルとの整合性がとれなくなる可能性があります。<br />
+	初期化を行った際は監視リスト等を一度更新して下さい。
+	<br />
+	<br />
+	<br />
+
+	<h2>設定</h2>
+	<form method="post" action="{$smarty.server.SCRIPT_NAME}" name="form2">
+		<table class="table_config_setting">
+			<tr class="bg_lightgray">
+				<th>ログインのセッション時間</th>
+				<td><input type="text" name="session_timeout" size="6" value="{$session_timeout}" maxlength="5">秒 <span class="gray">(1000〜99999 : デフォルト7200秒)</span></td>
+			</tr>
+			<tr>
+				<th>監視チェックログの最大行数</th>
+				<td><input type="text" name="line_max" size="6" value="{$line_max}" maxlength="5">行 <span class="gray">(1000〜9999 : デフォルト5000行)</span></td>
+			</tr>
+			<tr class="bg_lightgray">
+				<th>過去ログの保存件数</th>
+				<td><input type="text" name="oldlog_max" size="3" value="{$oldlog_max}" maxlength="3" >個 <span class="gray">(1〜999 : デフォルト5個 0を入力時は削除しない)</span></td>
+			</tr>
+			<tr>
+				<th>監視チェック時のタイムアウト</th>
+				<td><input type="text" name="timeout" size="1" value="{$timeout}" maxlength="1" >秒<span class="gray"> (1〜9 : デフォルト3秒)</span></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" name="submit_setting" value="設定"></td>
+			</tr>
+		</table>
+	</form>
+
+	<br />
+	<br />
+	<br />
+
+	<h2>情報</h2>
+		<table class="table_config_info">
+			<tr class="bg_lightgray">
+				<th>PHPバージョン</th>
+				<td>{$php_version}</td>
+			</tr>
+			<tr>
+				<th>pingコマンド</th>
+				<td>{$ping_cmd}{if $ping_cmd != "ping"}　　<span class="gray">※サーバー上のパスと一致しました。</span>{else}　　<span class="red"> ※サーバー上のパスが見つかりませんでした。デフォルト設定をセットします。</span>{/if}</td>
+			</tr>
+			<tr class="bg_lightgray">
+				<th>sendmailコマンド</th>
+				<td>{$sendmail_cmd}{if $ping_cmd != "sendmail"}　　<span class="gray">※サーバー上のパスと一致しました。</span>{else}　　<span class="red"> ※サーバー上のパスが見つかりませんでした。メール機能は使用できない可能性があります。</span>{/if}</td>
+			</tr>
+			<tr>
+				<th>cron用設定例</th>
+				<td><strong>*/15 * * * * ユーザー名 php -f {$cron_setting}</strong><br />
+				<span class="gray">※上記設定だと15分毎にサーバーチェックを実行します<br />
+				※上記設定にて定期実行されない場合、phpのパスが通っていない可能性があります。<br />&nbsp;&nbsp;&nbsp;phpの部分をフルパスで記述して下さい。<br /></span>
+				</td>
+			</tr>
+		</table>
+	<br />
+	<br />
+	<br />
+
+	<h2>メンテナンス</h2>
+	<form method="post" action="{$smarty.server.SCRIPT_NAME}" name="form3">
+		<table class="table_config_mainte">
+			<tr>
+				<th>ログの初期化</th>
+				<td><input type="submit" name="clean_log_dat" value="ログの初期化"></td>
+			</tr>
+			<tr>
+				<th>ログインID/PASS以外のすべての設定を初期化</th>
+				<td><input type="submit" name="clean_all_dat" value="全ての設定を初期化"></td>
+			</tr>
+	</table>
+	</form>
+
+</div><!-- /sub_main -->
+</div><!-- /main -->
+{include file="./inc/common_template_footer.tmpl"}

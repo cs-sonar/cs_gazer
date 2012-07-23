@@ -1,0 +1,22 @@
+{include file="./inc/common_template_header.tmpl"}
+
+<div id="main" class="shadow clearfix">
+<h2>アカウント設定</h2>
+{include file="./inc/errors.tmpl"}
+{include file="./inc/common_template_left.tmpl"}
+{if $finish}<span class="red">{$finish}</span>{/if}
+
+<div id="sub_main" class="clearfix">
+<h3>ログインID / PASSWORDの変更</h3>
+<form action="{$smarty.server.SCRIPT_NAME}" method="post">
+<table class="table_admin">
+	<tr><th>ID</th><td><input type="text" name="user" value="{$loginuser}" /><span class="admin_error">{$errors.user}</span></td></tr>
+	<tr><th>PASSWORD</th><td><input type="password" name="password" /><span class="admin_error">{$errors.password}</span></td></tr>
+	<tr><th>PASSWORD<br />(Confirm)</th><td><input type="password" name="passwordConfirm" /><span class="admin_error">{$errors.passwordConfirm}</span></td></tr>
+	<tr><td colspan="2"><input type="submit" name="edit" value="変更" /></td></tr>
+</table>
+</form>
+<br />
+</div><!-- /sub_main -->
+</div><!-- /main -->
+{include file="./inc/common_template_footer.tmpl"}

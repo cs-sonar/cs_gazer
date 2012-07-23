@@ -1,0 +1,116 @@
+{include file="./inc/common_template_header.tmpl"}
+<div id="load_ico">チェック中...</div>
+<div id="main" class="shadow clearfix">
+
+{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#status_report tr.hide").hide();
+	$("#status_report tr:first-child").show();
+
+	$("#status_report tr.open").hover(function(){
+		$(this).css("cursor","pointer");
+	},function(){
+		$(this).css("cursor","default");
+	});
+
+	$("#status_report tr.open").click(function(){
+		if ($(this).next("tr").css("display")=="none") {
+			$(this).next("tr").show("nomal");
+			$(this).find(".plus").toggleClass("minus").removeClass("plus");
+		} else {
+			$(this).next("tr").hide("fast");
+			$(this).find(".minus").toggleClass("plus").removeClass("minus");
+		}
+	});
+
+});
+
+$(function() {
+	$('#btnLoad').click(function() {
+		$('#load_ico').css('display', 'block');
+		$.post("lib/check.php",function(data) {
+			location.href="index.php";
+		});
+	});
+});
+</script>
+{/literal}
+
+<div id="status_header">
+<div class="status_data">
+	最終チェック日		:{$date}<br />
+	チェック所要時間	:{$exectime|replace:'exectime:':''} sec
+</div><!-- /status_data -->
+
+<div class="status_error">
+	ERROR SORVER :
+	{if $errornum eq 'errorserver:0'}
+		<span class="status_error_green"> {$errornum|replace:'errorserver:':''}</span>
+	{else}
+		<span class="status_error_red"> {$errornum|replace:'errorserver:':''}</span>
+	{/if}
+</div><!-- /status_error -->
+
+<div class="status_check">
+	<button id="btnLoad">今すぐチェック ≫</button>
+</div><!-- /status_check -->
+
+</div><!-- /status_header -->
+
+<h2>ステータス</h2>
+
+<table id="status_report" class="table_status">
+<tr>
+	<th class="gradient_gray table_box table_status_plus"></th>
+	<th class="gradient_gray table_box table_status_summary">host</th>
+	<th class="gradient_gray table_box table_status_check">監視</th>
+	<th class="gradient_gray table_box table_status_resultcheck">最終チェック</th>
+</tr>
+{foreach from=$list item=server}
+<tr class="open">
+	<td class="table_status_plus"><div class="plus"></div></td>
+	<td class="table_status_summary">{$server.host}    <span class="gray">({$server.summary})</span></td>
+	<td class="table_status_check">
+		{if $server.check eq 'on'}
+			<img class="ie6_png" alt="ON" src="{$home_url}static/images/main/status_on.png">
+		{elseif $server.check eq 'off'}
+			<img class="ie6_png" alt="OFF" src="{$home_url}static/images/main/status_off.png">
+		{/if}
+	</td>
+	<td class="table_status_resultcheck">
+		{if $server.result_check|default:'' eq 'ok'}
+			<img class="ie6_png" alt="OK" src="{$home_url}static/images/main/status_ok.png">
+		{elseif $server.result_check|default:'' eq 'checkerror'}
+			<img class="ie6_png" alt="CHECK ERROR" src="{$home_url}static/images/main/status_checkerror.png">
+		{elseif $server.result_check|default:'' eq 'resolverror'}
+			<img class="ie6_png" alt="RESOLV ERROR" src="{$home_url}static/images/main/status_resolverror.png">
+		{elseif $server.result_check|default:'' eq 'notcheck'}
+		{/if}
+	</td>
+</tr>
+<tr class="hide">
+	<td colspan="4" class="close">
+			<div class="table_status_bg1">
+				<table class="table_status_close1">
+					<tr><th>host</th><td>: {$server.host}</td></tr>
+					<tr><th>IPアドレス</th><td>: {if $server.ipaddr}{$server.ipaddr}{else}<span class="red">逆引きエラーです</span>{/if}</td></tr>
+					<tr><th>メールグループ</th><td>: {$server.mailgroup}</td></tr>
+				</table>
+				{if $server.pingchk eq "enable"}<iframe class="table_status_graph" width="450" height="200" src="./flot.php?host={$server.host}"></iframe>{/if}
+			</div><!-- /table_status_bg1 -->
+			<div class="table_status_bg2">
+				<table class="table_status_close2">
+					<tr><th>PING</th><td>: {$server.pingchk}</td><th>PINGチェック</th><td>: {$server.result_pingchk|default:''}</td></tr>
+					<tr><th>HTTP</th><td>: {$server.httpchk}</td><th>HTTPチェック</th><td>: {$server.result_httpchk|default:''}</td></tr>
+					<tr><th>ポート</th><td>: {foreach from=$server.ports item=port}{$port|default:''}	{/foreach}</td><th>ポートチェック</th><td>: {foreach from=$server.result_ports item=port}[{$port|default:''}]<br />{/foreach}</td></tr>
+				</table>
+			</div><!-- /table_status_bg2 -->
+	</td>
+</tr>
+{/foreach}
+</table>
+
+</div><!-- /main -->
+
+{include file="./inc/common_template_footer.tmpl"}

@@ -1,0 +1,122 @@
+{include file="./inc/common_template_header.tmpl"}
+<div id="load_ico">チェック中...</div>
+<div id="main" class="shadow clearfix">
+
+{literal}
+<script type="text/javascript">
+$(function() {
+	$('#btnLoad').click(function() {
+		$('#load_ico').css('display', 'block');
+		$.post("lib/check.php",function(data) {
+			location.href="alledit.php";
+		});
+	});
+});
+</script>
+{/literal}
+
+{include file="./inc/errors.tmpl"}
+
+<div id="status_header">
+<div class="status_data">
+	最終チェック日		:{$date}<br />
+	チェック所要時間	:{$exectime|replace:'exectime:':''} sec
+</div><!-- /status_data -->
+
+<div class="status_error">
+	ERROR SORVER :
+	{if $errornum eq 'errorserver:0'}
+		<span class="status_error_green"> {$errornum|replace:'errorserver:':''}</span>
+	{else}
+		<span class="status_error_red"> {$errornum|replace:'errorserver:':''}</span>
+	{/if}
+</div><!-- /status_error -->
+
+<div class="status_check">
+	<button id="btnLoad">今すぐチェック ≫</button>
+</div><!-- /status_check -->
+</div><!-- /status_header -->
+
+<h2>チェック対象の追加</h2>
+<form action="{$SCRIPT_NAME}" method="POST">
+<table class="table_edit">
+	<tr>
+		<th class="gradient_gray table_edit_box">削除</th>
+		<th class="gradient_gray table_edit_box">監視</th>
+		<th class="gradient_gray table_edit_long">host</th>
+		<th class="gradient_gray table_edit_long">summary</th>
+		<th class="gradient_gray table_edit_short">mailgroup</th>
+		<th class="gradient_gray table_edit_box">ping</th>
+		<th class="gradient_gray table_edit_box">http</th>
+		<th class="gradient_gray table_edit_long">port</th>
+	</tr>
+
+	<tr>
+		<td>-</td>
+		<td><input type="checkbox" name="check" value="on" checked /></td>
+		<td><input type="text" name="host" value="{$hold.host}" /></td>
+		<td><input type="text" name="summary" value="{$hold.summary}" /></td>
+		<td>
+			<select name="mailgroup">
+				{foreach from=$groupList item=v}
+				<option value="{$v}">{$v}</option>
+				{/foreach}
+			</select>
+		</td>
+		<td><input type="checkbox" name="pingchk" value="enable" {if $hold.pingchk eq 'enable'}checked{/if} /></td>
+		<td><input type="checkbox" name="httpchk" value="enable" {if $hold.httpchk eq 'enable'}checked{/if} /></td>
+		<td>
+			{foreach from=$portList item=port}
+			<input type="checkbox" name="ports{$port}" value="{$port}" {if $hold.$port eq $port }checked{/if}/>{$port}
+			{/foreach}
+		</td>
+	</tr>
+</table>
+<input type="submit" name="add" value="追加">
+</form>
+
+<br />
+
+<h2>チェック対象の編集/削除</h2>
+<form action="{$SCRIPT_NAME}" method="POST">
+<table class="table_edit">
+	<tr>
+		<th class="gradient_gray table_edit_box">削除</th>
+		<th class="gradient_gray table_edit_box">監視</th>
+		<th class="gradient_gray table_edit_long">host</th>
+		<th class="gradient_gray table_edit_long">summary</th>
+		<th class="gradient_gray table_edit_short">mailgroup</th>
+		<th class="gradient_gray table_edit_box">ping</th>
+		<th class="gradient_gray table_edit_box">http</th>
+		<th class="gradient_gray table_edit_long">port</th>
+	</tr>
+	{foreach from=$list item=server name=num}
+	<tr {if $server.check != "on"} class="bg_gray" {/if}>
+		<td><input type="checkbox" name="delcheck[]" value="{$server.host|escape}" ></td>
+		<td><input type="checkbox" name="{$smarty.foreach.num.iteration}-check" value="on" {if $server.check eq "on"}checked{/if}></td>
+		<td><input type="host" name="{$smarty.foreach.num.iteration}-host" value="{$server.host|escape}"></td>
+		<td><input type="text" name="{$smarty.foreach.num.iteration}-summary" value="{$server.summary|escape}"></td>
+		<td>
+			<select name="{$smarty.foreach.num.iteration}-mailgroup">
+				{foreach from=$groupList item=v}
+				<option value="{$v}" {if $v eq $server.mailgroup}selected{/if}>{$v}</option>
+				{/foreach}
+			</select>
+		</td>
+		<td><input type="checkbox" name="{$smarty.foreach.num.iteration}-pingchk" value="enable" {if $server.pingchk eq "enable"}checked{/if}></td>
+		<td><input type="checkbox" name="{$smarty.foreach.num.iteration}-httpchk" value="enable" {if $server.httpchk eq "enable"}checked{/if}></td>
+		<td>
+		{foreach from=$portList item=port}
+			<input type="checkbox" name="{$smarty.foreach.num.iteration}-port[]" value="{$port}" {foreach from=$server.ports item=v}{if $v eq $port}checked{/if}{/foreach}>{$port}
+		{/foreach}
+		</td>
+	</tr>
+	{/foreach}
+</table>
+
+<input type="submit" name="del" value="削除">
+<input type="submit" name="edit" value="変更">
+</form>
+
+</div><!-- /main -->
+{include file="./inc/common_template_footer.tmpl"}
