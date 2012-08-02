@@ -97,7 +97,7 @@ $(function() {
 					<tr><th>IPアドレス</th><td>: {if $server.ipaddr}{$server.ipaddr}{else}<span class="red">逆引きエラーです</span>{/if}</td></tr>
 					<tr><th>メールグループ</th><td>: {$server.mailgroup}</td></tr>
 				</table>
-				{if $server.pingchk eq "enable"}<iframe class="table_status_graph" width="450" height="200" src="./flot.php?host={$server.host}"></iframe>{/if}
+				{if $server.pingchk eq "enable"}<iframe width="400" height="180" scrolling="no" frameborder="0" src="./flot.php?host={$server.host}"></iframe>{/if}
 			</div><!-- /table_status_bg1 -->
 			<div class="table_status_bg2">
 				<table class="table_status_close2">

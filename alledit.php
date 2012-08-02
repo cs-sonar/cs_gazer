@@ -26,6 +26,9 @@ try{
 	error($e->getMessage());
 }
 
+// 監視できるポートリストの取得
+$portList = explode(',', file_get_contents(PORTS_DAT_FILE));
+
 // 最後のチェックのデータを取得
 $checkexec = file(CHECK_LOG_EXEC_DAT_FILE);
 $checkexec = explode(',',$checkexec[0]);
@@ -142,8 +145,6 @@ if($FORM['edit']){
 }
 
 
-// 監視できるポートリストの取得
-$portList = explode(',', file_get_contents(PORTS_DAT_FILE));
 
 // メールグループリストの取得
 $groupList = $group->getCsvColumn('mailgroup');
