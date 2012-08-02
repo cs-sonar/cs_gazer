@@ -9,7 +9,7 @@
 		<br />
 		<br />
 		<br />
-		入力したID/PASSWORDにて<a href="{$home_url}/login.php">こちら</a>からログインして下さい。<br />
+		入力したID/PASSWORDにて<a href="{$home_url}login.php">こちら</a>からログインして下さい。<br />
 	</div>
 </div><!-- /main -->
 {else}
@@ -72,7 +72,7 @@
 			</tr>
 			{if $errors || $error_exists_flg}
 			<tr>
-				<td colspan="2">エラーを確認の上、修正して下さい。</td>
+				<td colspan="2">エラーを確認の上、修正して下さい。 <a href="./">戻る</a></td>
 			</tr>
 		</table>
 			{else}

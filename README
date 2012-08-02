@@ -1,1 +1,3 @@
-This file was created by JetBrains PhpStorm 4.0.3 for binding GitHub repository
+1.持ってきたディレクトリのパーミッションに書き込み権限を与える。
+2.ブラウザからそのディレクトリにアクセスするとインストールが始まるかも。
+3.とりあえず手動で動かして動けばcronに登録。
