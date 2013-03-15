@@ -48,7 +48,7 @@ if($FORM['clean_all_dat']){
 	unlink(MAIL_DAT_FILE);
 	clean_dat_file(MAIL_DAT_FILE, $mail_header . "\n1,to@example.com");
 	unlink(SETTING_DAT_FILE);
-	clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5");
+	clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5,from@example.com");
 }
 
 if($FORM['clean_list_dat']){
@@ -73,7 +73,7 @@ if($FORM['clean_mail_dat']){
 
 if($FORM['clean_setting_dat']){
 	unlink(SETTING_DAT_FILE);
-	clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5");
+	clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5,from@example.com");
 }
 
 // 設定ファイルの編集
@@ -102,8 +102,10 @@ if($FORM['submit_setting']){
 	if( 999 < $FORM['oldlog_max'] ){
 		$errors['oldlog_max'] = "ログ保存数は1〜999の正の整数で入力して下さい。";
 	}
+    if(!f_AddressChk($FORM['frommailaddr'])) {$errors[] = "設定しようとしているメールアドレスが不正です。";}
+    if(200 < mb_strlen($FORM['frommailaddr'])){$errors[]="文字数オーバーです。200文字以内で入力して下さい。";}
 	if(!$errors){
-		$str = $FORM['session_timeout'] . "," . $FORM['timeout'] . "," . $FORM['line_max'] . "," . $FORM['oldlog_max'];
+		$str = $FORM['session_timeout'] . "," . $FORM['timeout'] . "," . $FORM['line_max'] . "," . $FORM['oldlog_max'] . "," . $FORM['frommailaddr'];
 		clean_dat_file(SETTING_DAT_FILE, $str);
 	}
 }
@@ -182,6 +184,7 @@ $data['session_timeout'] = $setting[0];
 $data['timeout'] = $setting[1];
 $data['line_max'] = $setting[2];
 $data['oldlog_max'] = $setting[3];
+$data['from_mailaddr'] = $setting[4];
 
 /*------------------------------------------------------------
  smarty

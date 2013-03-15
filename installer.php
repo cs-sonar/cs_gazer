@@ -120,6 +120,9 @@ if(!$install_flg){
 		if(!$FORM['mailaddr']){$errors[] = "メールアドレスが入力されていません。";}
 		if(!f_AddressChk($FORM['mailaddr'])) {$errors[] = "設定しようとしているメールアドレスが不正です。";}
 		if(200 < mb_strlen($FORM['mailaddr'])){$errors[]="文字数オーバーです。200文字以内で入力して下さい。";}
+        if(!$FORM['frommailaddr']){$errors[] = "メールアドレスが入力されていません。";}
+        if(!f_AddressChk($FORM['frommailaddr'])) {$errors[] = "設定しようとしているメールアドレスが不正です。";}
+        if(200 < mb_strlen($FORM['frommailaddr'])){$errors[]="文字数オーバーです。200文字以内で入力して下さい。";}
 
 		if(!$errors){
 			unlink(CHECK_CURRENT_DAT_FILE);
@@ -140,7 +143,7 @@ if(!$install_flg){
 			unlink(MAIL_DAT_FILE);
 			clean_dat_file(MAIL_DAT_FILE, $mail_header . "\n1,".$FORM['mailaddr']);
 			unlink(SETTING_DAT_FILE);
-			clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5");
+			clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5,".$FORM['frommailaddr']);
 			//header('Location:./login.php');
 			//exit;
 

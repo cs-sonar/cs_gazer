@@ -62,6 +62,8 @@ if ($FORM['groupdel']){
 	$checklist = new Csv(LIST_DAT_FILE);
 	$checklist = $checklist->getCsvColumn('mailgroup');
 	if(in_array($FORM['group'],$checklist)){ $errors[] = "監視リストにてメール送信先として設定されているグループです。<br />設定を解除後、実行して下さい。"; }
+	$mailGroup = $group->getCsv();
+
 	if(!$errors) {
 		$group->delCsv($FORM['group']); // 削除を実行
 	}

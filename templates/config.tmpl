@@ -75,6 +75,12 @@
 	<h2>設定</h2>
 	<form method="post" action="{$smarty.server.SCRIPT_NAME}" name="form2">
 		<table class="table_config_setting">
+			<tr>
+				<th>アラート送信元メールアドレス</th>
+				<td>
+					<input type="text" name="frommailaddr" value="{$from_mailaddr}"><br />
+					<span class="gray">(MXレコードがcs_gazer設置先サーバーIPと同じでなければなりすましメールと判断される恐れがあります)</span></td>
+			</tr>
 			<tr class="bg_lightgray">
 				<th>ログインのセッション時間</th>
 				<td><input type="text" name="session_timeout" size="6" value="{$session_timeout}" maxlength="5">秒 <span class="gray">(1000〜99999 : デフォルト7200秒)</span></td>
@@ -132,11 +138,11 @@
 		<table class="table_config_mainte">
 			<tr>
 				<th>ログの初期化</th>
-				<td><input type="submit" name="clean_log_dat" value="ログの初期化"></td>
+				<td><input type="submit" name="clean_log_dat" value="ログの初期化" onclick="return confirm('本当にログを初期化してもよろしいですか？');"></td>
 			</tr>
 			<tr>
 				<th>ログインID/PASS以外のすべての設定を初期化</th>
-				<td><input type="submit" name="clean_all_dat" value="全ての設定を初期化"></td>
+				<td><input type="submit" name="clean_all_dat" value="全ての設定を初期化" onclick="return confirm('本当に全ての設定を初期化してもよろしいですか？');"></td>
 			</tr>
 	</table>
 	</form>

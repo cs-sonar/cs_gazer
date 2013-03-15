@@ -12,7 +12,7 @@ $FORM = form_xss(); // フォームパラメータ取得
 
 // 認証ファイルがなければ新規インストールとみなす
 if(!file_exists(AUTH_DAT_FILE)){
-	header('Location:./installer.php');
+	header('Location:'.HOME_URL.'installer.php');
 }
 
 // 認証済みなら管理画面へ

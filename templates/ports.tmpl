@@ -22,7 +22,7 @@
 		<li><input type="checkbox" name="ports{$port}" value="{$port}" />{$port}{if $port eq $is_checked.$port} (監視中ポート){/if}</li>
 		{/foreach}
 	</ul>
-	<input type="submit" name="del" value="チェックしたものを削除" />
+	<input type="submit" name="del" value="チェックしたものを削除" onclick="return confirm('チェックしたポートを削除します。');" />
 </form>
 
 <br />

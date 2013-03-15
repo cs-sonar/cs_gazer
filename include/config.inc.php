@@ -50,7 +50,7 @@ if(file_exists(SETTING_DAT_FILE)){
 	$line = file(SETTING_DAT_FILE);
 	$setting = explode(',', $line[0]);
 }else{
-	$setting = array(7200,2,5000,5);
+	$setting = array(7200,2,5000,5,'from@example.com');
 }
 
 /*------------------------------------------------------------
@@ -87,6 +87,7 @@ define("SESSION_KEY",'feLvH4hfeHjfvY75Fdh'); // seacret key
 $timeout = $setting[1]; //チェックのタイムアウト判定時間
 $line_max = $setting[2]; //チェックログのMAX行数（これ以上の場合はローテートを行います）
 $oldlog_max = $setting[3]; //過去ログのMAX件数。これ以上は削除します
+$from_mailaddr = $setting[4]; //送信元メールアドレス
 
 //debug mode
 //define("SMARTY_DEBUG",'true');

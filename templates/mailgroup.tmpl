@@ -18,7 +18,7 @@
 
 {foreach from=$mailaddrAsGroup item=mail key=group}
 <form action"{$smarty.server.SCRIPT_NAME}" method="post">
-<strong class="strong_mailgroup">　{$group}</strong>　<input type="submit" name="set" value="グループ設定" />　<input type="submit" name="groupdel" value="グループを削除" />
+<strong class="strong_mailgroup">　{$group}</strong>　<input type="submit" name="set" value="グループの送信先メールアドレス設定" />　<input type="submit" name="groupdel" value="グループを削除" onclick="return confirm('このメールグループを削除します。');" />
 <ul>
 	{foreach from=$allMailAddr item=v}
 			<li><input type="checkbox" name="setmail[]" value="{$v}" {if $mail.$v}checked{/if} /> {$v}</li>

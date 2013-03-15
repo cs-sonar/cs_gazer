@@ -162,7 +162,7 @@ foreach( $checklist as $v ){
 			if(!$check_str['check']) {$check_str['check'] = 'checkerror';}
 			$error_count++;
 			$mail_title = '[cs_gazer]'.$v['host'];
-			$mail_from = 'sonar@maplesonar.com';
+			$mail_from = $from_mailaddr ? $from_mailaddr : 'from@example.com';
 			$mail_to = array();
 
 			$mail_body = "";
