@@ -75,6 +75,12 @@
 	<h2>設定</h2>
 	<form method="post" action="{$smarty.server.SCRIPT_NAME}" name="form2">
 		<table class="table_config_setting">
+			<tr class="bg_lightgray">
+				<th>cs_gazer設置URL</th>
+				<td>
+					<input type="text" name="cs_gazer_url" value="{$cs_gazer_url}"><br />
+					<span class="gray">(アラートメール送信時にどのcs_gazerから送信されたかを把握するのに使用します)</span></td>
+			</tr>
 			<tr>
 				<th>アラート送信元メールアドレス</th>
 				<td>

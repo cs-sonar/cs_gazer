@@ -171,6 +171,7 @@ foreach( $checklist as $v ){
 			foreach($errors as $vvv) {
 				$mail_body .= $vvv."\n\n";
 			}
+			$mail_body .= "checked by " . $cs_gazer_url . "\n";
 
 			// 送信先メールアドレス取得処理
 			$mail = new Csv(MAIL_DAT_FILE);

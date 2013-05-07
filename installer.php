@@ -143,7 +143,9 @@ if(!$install_flg){
 			unlink(MAIL_DAT_FILE);
 			clean_dat_file(MAIL_DAT_FILE, $mail_header . "\n1,".$FORM['mailaddr']);
 			unlink(SETTING_DAT_FILE);
-			clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5,".$FORM['frommailaddr']);
+			$cs_gazer_url = "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+			$cs_gazer_url = str_replace("installer.php", "", $cs_gazer_url);
+			clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5,".$FORM['frommailaddr'].",". $cs_gazer_url);
 			//header('Location:./login.php');
 			//exit;
 

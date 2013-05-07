@@ -20,6 +20,8 @@ $FORM = form_xss();
  プログラム
  ------------------------------------------------------------*/
 
+$cs_gazer_url = "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+$cs_gazer_url = str_replace("config.php", "", $cs_gazer_url);
 
 if($FORM['clean_log_dat']){
 	unlink(CHECK_CURRENT_DAT_FILE);
@@ -48,7 +50,7 @@ if($FORM['clean_all_dat']){
 	unlink(MAIL_DAT_FILE);
 	clean_dat_file(MAIL_DAT_FILE, $mail_header . "\n1,to@example.com");
 	unlink(SETTING_DAT_FILE);
-	clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5,from@example.com");
+	clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5,from@example.com," . $cs_gazer_url);
 }
 
 if($FORM['clean_list_dat']){
@@ -73,7 +75,9 @@ if($FORM['clean_mail_dat']){
 
 if($FORM['clean_setting_dat']){
 	unlink(SETTING_DAT_FILE);
-	clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5,from@example.com");
+	$cs_gazer_url = "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+	$cs_gazer_url = str_replace("config.php", "", $cs_gazer_url);
+	clean_dat_file(SETTING_DAT_FILE, "7200,3,5000,5,from@example.com," . $cs_gazer_url);
 }
 
 // 設定ファイルの編集
@@ -103,9 +107,10 @@ if($FORM['submit_setting']){
 		$errors['oldlog_max'] = "ログ保存数は1〜999の正の整数で入力して下さい。";
 	}
     if(!f_AddressChk($FORM['frommailaddr'])) {$errors[] = "設定しようとしているメールアドレスが不正です。";}
-    if(200 < mb_strlen($FORM['frommailaddr'])){$errors[]="文字数オーバーです。200文字以内で入力して下さい。";}
+    if(200 < mb_strlen($FORM['frommailaddr'])){$errors[]="メールアドレスの文字数オーバーです。200文字以内で入力して下さい。";}
+    if (!preg_match('/^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$%#]+)$/', $FORM['cs_gazer_url'])){$errors[]="URLが不正です";}
 	if(!$errors){
-		$str = $FORM['session_timeout'] . "," . $FORM['timeout'] . "," . $FORM['line_max'] . "," . $FORM['oldlog_max'] . "," . $FORM['frommailaddr'];
+		$str = $FORM['session_timeout'] . "," . $FORM['timeout'] . "," . $FORM['line_max'] . "," . $FORM['oldlog_max'] . "," . $FORM['frommailaddr'] . "," . $FORM['cs_gazer_url'];
 		clean_dat_file(SETTING_DAT_FILE, $str);
 	}
 }
@@ -151,7 +156,7 @@ $data['auth_dat_file'] = 'ok';
 try{
 	$check = new Csv(AUTH_DAT_FILE);
 } catch (Exception $e){
-	header('Location:../installer.php');
+	header('Location:'. $cs_gazer_url .'/installer.php');
 	exit;
 }
 
@@ -185,6 +190,7 @@ $data['timeout'] = $setting[1];
 $data['line_max'] = $setting[2];
 $data['oldlog_max'] = $setting[3];
 $data['from_mailaddr'] = $setting[4];
+$data['cs_gazer_url'] = $setting[5];
 
 /*------------------------------------------------------------
  smarty
