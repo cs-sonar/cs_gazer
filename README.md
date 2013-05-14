@@ -11,11 +11,16 @@ Install
 
     git clone git://github.com/cs-sonar/cs_gazer.git
 
-パーミッションの設定
---------
+
 WEBサーバーから書き込みが可能にする必要があります
 
     chmod 777 ./cs_gazer
+
+設置したcs_gazerにブラウザから接続します。
+
+    http://example.com/cs_gazer
+
+インストール画面が表示されるので進めて下さい。
 
 cron登録
 --------
@@ -24,4 +29,4 @@ cron登録
 
 cron登録例
 
-    */15 * * * * php -f /path/to/cs_gazer/lib/check.php
+    */15 * * * * php -f /path/to/cs_gazer/lib/check.php >/dev/null 2>&1

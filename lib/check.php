@@ -4,6 +4,7 @@
  * 初期設定
  -------------------------------------------------------*/
 date_default_timezone_set('Asia/Tokyo');
+error_reporting(E_ALL ^ E_NOTICE);
 require_once(dirname(__FILE__) . '/../include/Csv.php');
 require_once(dirname(__FILE__) . '/../include/config.inc.php');
 $time_start = microtime(true);
