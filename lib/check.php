@@ -172,6 +172,8 @@ foreach( $checklist as $v ){
 			foreach($errors as $vvv) {
 				$mail_body .= $vvv."\n\n";
 			}
+			$mail_body .= "host url http://" . $v['host'] . "\n";
+			$mail_body .= "\n";
 			$mail_body .= "checked by " . $cs_gazer_url . "\n";
 
 			// 送信先メールアドレス取得処理
